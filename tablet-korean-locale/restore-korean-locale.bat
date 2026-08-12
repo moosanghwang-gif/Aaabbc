@@ -1,17 +1,16 @@
 @echo off
 setlocal enabledelayedexpansion
-chcp 65001 >nul
 
 rem ===========================================================
-rem  Legion Tab Y700 (ZUXOS / Android 16) í•œêµ­ì–´ ë¡œì¼€ì¼ ë³µêµ¬
+rem  Legion Tab Y700 (ZUXOS / Android 16) ÇÑ±¹¾î ·ÎÄÉÀÏ º¹±¸
 rem
-rem  OTA ì—…ë°ì´íŠ¸ í›„ ì‹œìŠ¤í…œ ì–¸ì–´ê°€ zh-CN ìœ¼ë¡œ ë˜ëŒì•„ê°”ì„ ë•Œ
-rem  ì´ ìŠ¤í¬ë¦½íŠ¸ë¥¼ ì‹¤í–‰í•˜ë©´ í•œ ë²ˆì— ìž¬ì ìš©ë©ë‹ˆë‹¤.
+rem  OTA ¾÷µ¥ÀÌÆ® ÈÄ ½Ã½ºÅÛ ¾ð¾î°¡ zh-CN À¸·Î µÇµ¹¾Æ°¬À» ¶§
+rem  ÀÌ ½ºÅ©¸³Æ®¸¦ ½ÇÇàÇÏ¸é ÇÑ ¹ø¿¡ ÀçÀû¿ëµË´Ï´Ù.
 rem
-rem  ì‚¬ìš© ì „ ì¤€ë¹„:
-rem    1) íƒœë¸”ë¦¿ ê°œë°œìž ì˜µì…˜ â†’ USB ë””ë²„ê¹… ì¼œê¸°
-rem    2) USB ë¡œ PC ì—°ê²°, íƒœë¸”ë¦¿ í™”ë©´ì˜ ë””ë²„ê¹… í—ˆìš© íŒì—… ìŠ¹ì¸
-rem    3) ì´ íŒŒì¼ì„ ë”ë¸”í´ë¦­
+rem  »ç¿ë Àü ÁØºñ:
+rem    1) ÅÂºí¸´ °³¹ßÀÚ ¿É¼Ç ¡æ USB µð¹ö±ë ÄÑ±â
+rem    2) USB ·Î PC ¿¬°á, ÅÂºí¸´ È­¸éÀÇ µð¹ö±ë Çã¿ë ÆË¾÷ ½ÂÀÎ
+rem    3) ÀÌ ÆÄÀÏÀ» ´õºíÅ¬¸¯
 rem ===========================================================
 
 set "LOCALES=ko-KR,en-US"
@@ -19,34 +18,34 @@ set "PKGLIST=%~dp0app-locales.txt"
 
 echo.
 echo ============================================
-echo   í•œêµ­ì–´ ë¡œì¼€ì¼ ë³µêµ¬  ^| %LOCALES%
+echo   ÇÑ±¹¾î ·ÎÄÉÀÏ º¹±¸  ^| %LOCALES%
 echo ============================================
 echo.
 
-rem ---------- adb ì¡´ìž¬ í™•ì¸ ----------
+rem ---------- adb Á¸Àç È®ÀÎ ----------
 where adb >nul 2>&1
 if errorlevel 1 (
-    echo [ì‹¤íŒ¨] adb ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.
+    echo [½ÇÆÐ] adb ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.
     echo.
-    echo   Android SDK Platform Tools ë¥¼ ë‚´ë ¤ë°›ì•„ ì••ì¶•ì„ í‘¼ ë’¤,
-    echo   ê·¸ í´ë”ë¥¼ ì‹œìŠ¤í…œ PATH ì— ì¶”ê°€í•˜ê±°ë‚˜
-    echo   platform-tools í´ë” ì•ˆì—ì„œ ì´ ìŠ¤í¬ë¦½íŠ¸ë¥¼ ì‹¤í–‰í•˜ì„¸ìš”.
+    echo   Android SDK Platform Tools ¸¦ ³»·Á¹Þ¾Æ ¾ÐÃàÀ» Ç¬ µÚ,
+    echo   ±× Æú´õ¸¦ ½Ã½ºÅÛ PATH ¿¡ Ãß°¡ÇÏ°Å³ª
+    echo   platform-tools Æú´õ ¾È¿¡¼­ ÀÌ ½ºÅ©¸³Æ®¸¦ ½ÇÇàÇÏ¼¼¿ä.
     echo   https://developer.android.com/tools/releases/platform-tools
     echo.
     pause
     exit /b 1
 )
 
-rem ---------- ê¸°ê¸° ì—°ê²° í™•ì¸ ----------
-echo [1/5] ê¸°ê¸° í™•ì¸ ì¤‘...
+rem ---------- ±â±â ¿¬°á È®ÀÎ ----------
+echo [1/5] ±â±â È®ÀÎ Áß...
 adb start-server >nul 2>&1
 
 set "DEVICE="
 for /f "skip=1 tokens=1,2" %%a in ('adb devices') do (
     if "%%b"=="device" set "DEVICE=%%a"
     if "%%b"=="unauthorized" (
-        echo   [ì‹¤íŒ¨] ê¸°ê¸°ê°€ unauthorized ìƒíƒœìž…ë‹ˆë‹¤.
-        echo          íƒœë¸”ë¦¿ í™”ë©´ì˜ "USB ë””ë²„ê¹…ì„ í—ˆìš©í•˜ì‹œê² ìŠµë‹ˆê¹Œ?" íŒì—…ì„ ìŠ¹ì¸í•˜ì„¸ìš”.
+        echo   [½ÇÆÐ] ±â±â°¡ unauthorized »óÅÂÀÔ´Ï´Ù.
+        echo          ÅÂºí¸´ È­¸éÀÇ "USB µð¹ö±ëÀ» Çã¿ëÇÏ½Ã°Ú½À´Ï±î?" ÆË¾÷À» ½ÂÀÎÇÏ¼¼¿ä.
         echo.
         pause
         exit /b 1
@@ -54,77 +53,77 @@ for /f "skip=1 tokens=1,2" %%a in ('adb devices') do (
 )
 
 if not defined DEVICE (
-    echo   [ì‹¤íŒ¨] ì—°ê²°ëœ ê¸°ê¸°ê°€ ì—†ìŠµë‹ˆë‹¤. USB ì¼€ì´ë¸”ê³¼ ë””ë²„ê¹… ì„¤ì •ì„ í™•ì¸í•˜ì„¸ìš”.
+    echo   [½ÇÆÐ] ¿¬°áµÈ ±â±â°¡ ¾ø½À´Ï´Ù. USB ÄÉÀÌºí°ú µð¹ö±ë ¼³Á¤À» È®ÀÎÇÏ¼¼¿ä.
     echo.
     pause
     exit /b 1
 )
-echo   ì—°ê²°ë¨: !DEVICE!
+echo   ¿¬°áµÊ: !DEVICE!
 
-rem ---------- ë³€ê²½ ì „ ìƒíƒœ ----------
+rem ---------- º¯°æ Àü »óÅÂ ----------
 echo.
-echo [2/5] ë³€ê²½ ì „ ìƒíƒœ
+echo [2/5] º¯°æ Àü »óÅÂ
 for /f "delims=" %%v in ('adb shell settings get system system_locales 2^>nul') do set "BEFORE=%%v"
 for /f "delims=" %%v in ('adb shell getprop persist.sys.locale 2^>nul') do set "PROP=%%v"
 echo   system_locales    : !BEFORE!
 echo   persist.sys.locale: !PROP!
 
-rem ---------- ì‹œìŠ¤í…œ ë¡œì¼€ì¼ ì ìš© ----------
+rem ---------- ½Ã½ºÅÛ ·ÎÄÉÀÏ Àû¿ë ----------
 echo.
-echo [3/5] ì‹œìŠ¤í…œ ë¡œì¼€ì¼ ì ìš© ì¤‘...
+echo [3/5] ½Ã½ºÅÛ ·ÎÄÉÀÏ Àû¿ë Áß...
 adb shell settings put system system_locales "%LOCALES%"
 if errorlevel 1 (
-    echo   [ê²½ê³ ] settings put ì‹¤íŒ¨. ì´ ê¸°ê¸°ëŠ” ë£¨íŠ¸ ì—†ì´ ì´ ë°©ì‹ì´ ë§‰í˜€ ìžˆì„ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
-    echo          ì„¤ì • ì•±ì—ì„œ ì§ì ‘ ì–¸ì–´ë¥¼ ë°”ê¾¸ëŠ” ìª½ì´ ë” ì˜¤ëž˜ ìœ ì§€ë©ë‹ˆë‹¤.
+    echo   [°æ°í] settings put ½ÇÆÐ. ÀÌ ±â±â´Â ·çÆ® ¾øÀÌ ÀÌ ¹æ½ÄÀÌ ¸·Çô ÀÖÀ» ¼ö ÀÖ½À´Ï´Ù.
+    echo          ¼³Á¤ ¾Û¿¡¼­ Á÷Á¢ ¾ð¾î¸¦ ¹Ù²Ù´Â ÂÊÀÌ ´õ ¿À·¡ À¯ÁöµË´Ï´Ù.
 ) else (
-    echo   ì™„ë£Œ
+    echo   ¿Ï·á
 )
 
-rem ---------- ì•±ë³„ ë¡œì¼€ì¼ ----------
+rem ---------- ¾Ûº° ·ÎÄÉÀÏ ----------
 echo.
-echo [4/5] ì•±ë³„ ì–¸ì–´ ì ìš© ì¤‘...
+echo [4/5] ¾Ûº° ¾ð¾î Àû¿ë Áß...
 if not exist "%PKGLIST%" (
-    echo   app-locales.txt ì—†ìŒ - ê±´ë„ˆëœë‹ˆë‹¤.
+    echo   app-locales.txt ¾øÀ½ - °Ç³Ê¶Ý´Ï´Ù.
 ) else (
     set "COUNT=0"
     for /f "usebackq eol=# tokens=1 delims= " %%p in ("%PKGLIST%") do (
         if not "%%p"=="" (
             adb shell cmd locale set-app-locales %%p --user current --locales %LOCALES% >nul 2>&1
             if errorlevel 1 (
-                echo   - %%p  [ê±´ë„ˆëœ€: ë¯¸ì„¤ì¹˜ ë˜ëŠ” ë¯¸ì§€ì›]
+                echo   - %%p  [°Ç³Ê¶Ü: ¹Ì¼³Ä¡ ¶Ç´Â ¹ÌÁö¿ø]
             ) else (
-                echo   - %%p  ì ìš©
+                echo   - %%p  Àû¿ë
                 set /a COUNT+=1
             )
         )
     )
-    echo   !COUNT! ê°œ ì•± ì²˜ë¦¬
+    echo   !COUNT! °³ ¾Û Ã³¸®
 )
 
-rem ---------- ê²€ì¦ ----------
+rem ---------- °ËÁõ ----------
 echo.
-echo [5/5] ë³€ê²½ í›„ ìƒíƒœ
+echo [5/5] º¯°æ ÈÄ »óÅÂ
 for /f "delims=" %%v in ('adb shell settings get system system_locales 2^>nul') do set "AFTER=%%v"
 echo   system_locales    : !AFTER!
 
 echo.
 if /i "!AFTER!"=="%LOCALES%" (
-    echo   [ì„±ê³µ] ë¡œì¼€ì¼ì´ ì ìš©ë˜ì—ˆìŠµë‹ˆë‹¤.
+    echo   [¼º°ø] ·ÎÄÉÀÏÀÌ Àû¿ëµÇ¾ú½À´Ï´Ù.
 ) else (
-    echo   [ì£¼ì˜] ê¸°ëŒ€ê°’ê³¼ ë‹¤ë¦…ë‹ˆë‹¤. ê¸°ëŒ€: %LOCALES% / ì‹¤ì œ: !AFTER!
-    echo          ì„¤ì • ì•±ì—ì„œ ìˆ˜ë™ìœ¼ë¡œ ì–¸ì–´ë¥¼ ì§€ì •í•´ ì£¼ì„¸ìš”.
+    echo   [ÁÖÀÇ] ±â´ë°ª°ú ´Ù¸¨´Ï´Ù. ±â´ë: %LOCALES% / ½ÇÁ¦: !AFTER!
+    echo          ¼³Á¤ ¾Û¿¡¼­ ¼öµ¿À¸·Î ¾ð¾î¸¦ ÁöÁ¤ÇØ ÁÖ¼¼¿ä.
 )
 
 echo.
 echo ============================================
-echo   ìž¬ë¶€íŒ…í•´ì•¼ ëª¨ë“  ì•±ì— ë°˜ì˜ë©ë‹ˆë‹¤.
+echo   ÀçºÎÆÃÇØ¾ß ¸ðµç ¾Û¿¡ ¹Ý¿µµË´Ï´Ù.
 echo ============================================
-set /p "DOREBOOT=ì§€ê¸ˆ ìž¬ë¶€íŒ…í• ê¹Œìš”? (y/N): "
+set /p "DOREBOOT=Áö±Ý ÀçºÎÆÃÇÒ±î¿ä? (y/N): "
 if /i "!DOREBOOT!"=="y" (
-    echo ìž¬ë¶€íŒ… ì¤‘...
+    echo ÀçºÎÆÃ Áß...
     adb reboot
 ) else (
-    echo ë‚˜ì¤‘ì— ì§ì ‘ ìž¬ë¶€íŒ…í•˜ì„¸ìš”.
+    echo ³ªÁß¿¡ Á÷Á¢ ÀçºÎÆÃÇÏ¼¼¿ä.
 )
 
 echo.

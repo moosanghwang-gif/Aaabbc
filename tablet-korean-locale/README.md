@@ -18,21 +18,36 @@ Legion Tab Y700 (TB322FC / ZUXOS / Android 16)에서 **OTA 업데이트 후 시�
 
 ## 실행
 
-**Windows**
+### Windows — `시작하기.bat` 더블클릭
+
+이 파일 **하나만** 더블클릭하면 됩니다. 위의 "준비" 3번(adb 설치)도 건너뛸 수 있습니다.
+
+1. adb가 없으면 Google 공식 배포처에서 자동으로 내려받습니다 (약 10MB,
+   **이 폴더 안에만** 저장하며 시스템에는 아무것도 설치하지 않습니다)
+2. 태블릿에서 해야 할 일을 화면에 안내합니다
+3. 이어서 로케일 복구를 실행합니다
+
+세 파일이 **같은 폴더**에 있어야 합니다:
 
 ```
+시작하기.bat
 restore-korean-locale.bat
+app-locales.txt
 ```
 
-더블클릭해도 됩니다. `adb`가 PATH에 없으면 `platform-tools` 폴더 안에 스크립트를
-복사해 두고 실행하세요.
+> 배치 파일은 한국어 Windows 기본 코드페이지(CP949)로 저장되어 있습니다.
+> 메모장 등으로 편집한다면 인코딩을 유지해 주세요. UTF-8로 저장하면
+> 화면의 한글이 깨집니다.
 
-**macOS / Linux**
+### macOS / Linux
 
 ```bash
 chmod +x restore-korean-locale.sh
 ./restore-korean-locale.sh
 ```
+
+adb는 직접 설치해야 합니다 (`brew install android-platform-tools` 또는
+`sudo apt install adb`).
 
 ## 스크립트가 하는 일
 
