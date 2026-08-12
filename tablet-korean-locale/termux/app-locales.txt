@@ -1,0 +1,37 @@
+# 앱별 언어를 ko-KR 로 강제할 패키지 목록
+# - 한 줄에 패키지명 하나
+# - '#' 뒤는 주석
+# - 설치되지 않았거나 지원하지 않는 앱은 자동으로 건너뜁니다
+#
+# 패키지명 찾는 법:
+#   adb shell pm list packages | grep -i 검색어
+#   adb shell dumpsys activity activities | grep mResumedActivity   (현재 화면 앱)
+
+# ---- 구글 기본 앱 ----
+com.android.chrome
+com.google.android.youtube
+com.google.android.apps.photos
+com.google.android.apps.nbu.files
+com.google.android.gm
+com.google.android.calendar
+com.google.android.apps.maps
+com.google.android.keep
+
+# ---- 국내 앱 ----
+com.kakao.talk
+com.nhn.android.search              # 네이버
+com.nhn.android.band
+com.naver.whale                     # 웨일 브라우저
+com.coupang.mobile
+com.towneers.www                    # 당근
+
+# ---- 레노버 / ZUXOS 시스템 앱 ----
+# 한국어 리소스가 없으면 적용되어도 영어/중국어로 남습니다.
+# 시도 비용이 없으니 일단 넣어둡니다.
+com.android.settings
+com.zui.filemanager
+com.zui.gallery
+com.zui.calculator
+com.zui.deskclock
+com.zui.game.center
+com.lenovo.leos.appstore
